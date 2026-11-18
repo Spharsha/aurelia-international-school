@@ -45,7 +45,7 @@ const levelCards = [
     title: "Secondary",
     sub: "Class 9 to 10",
     text: "Board preparation with guidance.",
-    color: "bg-leaf/15",
+    color: "bg-white",
   },
 ];
 

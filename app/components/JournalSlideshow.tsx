@@ -4,19 +4,19 @@ import { useEffect, useState } from "react";
 
 const slides = [
   {
-    src: "/images/Gemini_Generated_Image_wod2f8wod2f8wod2.png",
+    src: "/images/Gemini_Generated_Image_wod2f8wod2f8wod2.webp",
     alt: "Students exploring science and experiments",
   },
   {
-    src: "/images/Gemini_Generated_Image_tmqkkqtmqkkqtmqk.png",
+    src: "/images/Gemini_Generated_Image_tmqkkqtmqkkqtmqk.webp",
     alt: "Creative art and music learning space",
   },
   {
-    src: "/images/Gemini_Generated_Image_dj347wdj347wdj34.png",
+    src: "/images/Gemini_Generated_Image_dj347wdj347wdj34.webp",
     alt: "Students reading in the school library",
   },
   {
-    src: "/images/Gemini_Generated_Image_bm6ji1bm6ji1bm6j.png",
+    src: "/images/Gemini_Generated_Image_bm6ji1bm6ji1bm6j.webp",
     alt: "Students learning in the computer lab",
   },
 ];
