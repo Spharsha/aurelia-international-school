@@ -1,82 +1,141 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const links = [
-  { label: "OUR STORY", href: "#story" },
-  { label: "LEARNING", href: "#learning" },
-  { label: "CAMPUS", href: "#campus" },
-  { label: "JOURNAL", href: "#journal" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Academics", href: "/academics" },
+  { label: "Admissions", href: "/admissions" },
+  { label: "Campus", href: "/campus" },
+  { label: "Events", href: "/events" },
+  { label: "Contact", href: "/contact" },
 ];
 
+function Logo() {
+  return (
+    <span className="flex items-center gap-3">
+      <span className="flex h-11 w-11 items-center justify-center rounded-full bg-royal ring-4 ring-sun">
+        <span className="font-display text-xl font-semibold text-white">V</span>
+      </span>
+      <span className="leading-tight">
+        <span className="block font-display text-xl font-semibold text-royal">
+          Vidyanjali
+        </span>
+        <span className="block text-[9px] font-bold tracking-[0.2em] text-slate">
+          INTERNATIONAL SCHOOL · PUNE
+        </span>
+      </span>
+    </span>
+  );
+}
+
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
-    <header className="relative z-50 bg-[#fffaf6]">
-      <div className="mx-auto flex max-w-[1500px] items-center justify-between px-6 py-6 md:px-12">
-        <a href="#home" className="flex items-center gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#39254c] text-xl text-white">
-            A
-          </span>
-          <span className="leading-tight">
-            <span className="block text-sm font-bold tracking-[0.18em] text-[#39254c]">
-              AURELIA
-            </span>
-            <span className="block text-[9px] tracking-[0.25em] text-[#987d9f]">
-              INTERNATIONAL SCHOOL
-            </span>
-          </span>
-        </a>
-
-        <nav className="hidden items-center gap-9 lg:flex">
-          {links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-[10px] font-semibold tracking-[0.16em] text-[#624e6e] transition hover:text-[#e87961]"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-
-        <a
-          href="#admissions"
-          className="hidden bg-[#e87961] px-6 py-4 text-[10px] font-bold tracking-[0.15em] text-white transition hover:bg-[#39254c] lg:block"
-        >
-          JOIN OUR COMMUNITY ↗
-        </a>
-
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="text-sm font-bold tracking-widest text-[#39254c] lg:hidden"
-          aria-label="Toggle navigation menu"
-          aria-expanded={menuOpen}
-        >
-          {menuOpen ? "CLOSE ×" : "MENU +"}
-        </button>
+    <header className="sticky top-0 z-40">
+      <div className="bg-sun px-4 py-2 text-center text-xs font-bold text-royal-dark sm:text-sm">
+        🎓 Admissions open for 2027–28 ·{" "}
+        <Link href="/admissions" className="underline underline-offset-2">
+          Apply now
+        </Link>
       </div>
 
-      {menuOpen && (
-        <nav className="border-t border-[#eadfea] bg-[#f5eff8] px-6 py-6 lg:hidden">
+      <div className="border-b border-line bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-8">
+          <Link
+            href="/"
+            aria-label="Vidyanjali home"
+            onClick={() => setOpen(false)}
+          >
+            <Logo />
+          </Link>
+
+          <nav aria-label="Main" className="hidden items-center gap-1 xl:flex">
+            {links.map((link) => {
+              const active = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`rounded-full px-4 py-2 text-sm font-bold transition ${
+                    active
+                      ? "bg-sky text-royal"
+                      : "text-slate hover:bg-sky hover:text-royal"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <Link
+              href="/admissions"
+              className="rounded-full bg-royal px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-royal-dark"
+            >
+              Apply Now
+            </Link>
+
+            <button
+              type="button"
+              aria-label="Toggle navigation menu"
+              aria-expanded={open}
+              aria-controls="school-menu"
+              onClick={() => setOpen(!open)}
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-line xl:hidden"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                className="h-5 w-5"
+                aria-hidden="true"
+              >
+                {open ? (
+                  <path d="M6 6l12 12M18 6L6 18" />
+                ) : (
+                  <path d="M4 7h16M4 12h16M4 17h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {open && (
+        <nav
+          id="school-menu"
+          aria-label="Mobile"
+          className="fade-in max-h-[calc(100vh-7rem)] overflow-y-auto border-b border-line bg-white px-4 pb-6 pt-2 shadow-xl xl:hidden"
+        >
           {links.map((link) => (
-            <a
-              key={link.label}
+            <Link
+              key={link.href}
               href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="block border-b border-[#e5d9e9] py-4 text-xs font-semibold tracking-widest text-[#39254c]"
+              onClick={() => setOpen(false)}
+              className={`block border-b border-line py-4 text-base font-bold ${
+                pathname === link.href ? "text-royal" : "text-ink"
+              }`}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
-          <a
-            href="#admissions"
-            onClick={() => setMenuOpen(false)}
-            className="mt-5 inline-block bg-[#e87961] px-6 py-4 text-xs font-bold tracking-widest text-white"
-          >
-            JOIN OUR COMMUNITY ↗
-          </a>
         </nav>
       )}
     </header>
